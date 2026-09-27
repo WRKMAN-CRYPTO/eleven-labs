@@ -1,0 +1,115 @@
+{
+  "project": {
+    "name": "WRKMAN Eleven Labs",
+    "purpose": "A living fieldbook for prompt experiments, model behavior, and repeatable music-generation findings.",
+    "started": "2026-09-27",
+    "canonical_model_focus": "Eleven Music v2.5"
+  },
+  "findings": [
+    {
+      "id": "F001",
+      "status": "confirmed",
+      "title": "Arrangement obedience is strong",
+      "finding": "A one-minute instrumental prompt asking for a gradual mechanical wake-up was followed closely enough that the result sounded like machinery waking up or coming online.",
+      "evidence": [
+        "T001"
+      ]
+    },
+    {
+      "id": "F002",
+      "status": "confirmed",
+      "title": "Quality is not the same as vocal soul",
+      "finding": "Switching the same lyric concept from Music v2 to v2.5 improved quality, but the vocal still felt closer to speech delivered in intonation than fully sung melody.",
+      "evidence": [
+        "T002",
+        "T003"
+      ]
+    },
+    {
+      "id": "F003",
+      "status": "confirmed",
+      "title": "Describe vocal mechanics, not only emotion",
+      "finding": "Explicitly requesting long sustained notes, wide pitch movement, vibrato, bends, melisma, chest voice, and forbidding talk-singing produced a vocal with noticeably more singing soul.",
+      "evidence": [
+        "T004"
+      ]
+    }
+  ],
+  "reusable": {
+    "vocal_foundation": "Strong melodic vocal performance with long sustained notes, wide pitch movement, expressive vibrato, bends, and occasional melisma. Do not use spoken-word phrasing, conversational delivery, chant-like vocals, or rhythmic talk-singing."
+  },
+  "runs": [
+    {
+      "id": "T001",
+      "date": "2026-09-27",
+      "model": "Music v2",
+      "duration_seconds": 60,
+      "credits": 1800,
+      "type": "instrumental",
+      "title": "Machinery Coming Online",
+      "prompt": "Instrumental only. Begin sparse with piano and low cello. Gradually introduce restrained electric guitar and metallic percussion. Build steadily rather than jumping into a chorus. The middle should feel mechanical, determined, and physical, like machinery coming online one piece at a time. Final section becomes powerful and driving without becoming triumphant pop. No vocals, no choir, no glossy EDM synths. End deliberately rather than fading out.",
+      "result": "Quality build. The arrangement listened to the prompt and sounded like it was waking up or coming online.",
+      "tags": [
+        "obedience",
+        "instrumental",
+        "mechanical-build",
+        "successful"
+      ]
+    },
+    {
+      "id": "T002",
+      "date": "2026-09-27",
+      "model": "Music v2",
+      "duration_seconds": 60,
+      "credits": 1800,
+      "type": "lyrics",
+      "title": "Clock In",
+      "prompt": "Industrial rock with cinematic weight and a slow mechanical build. Begin with sparse piano, low cello, distant metallic percussion, and the sound-feel of machinery gradually coming online. Add restrained electric guitar, heavy drums, and bass as the track develops. Male lead vocal, weathered and grounded, not polished pop, not theatrical. Verses should feel close and controlled. Chorus should open up with force without becoming glossy or triumphant. No choir, no EDM synths, no screaming metal vocals. Strong rhythmic relationship between percussion and lyrics. The song should sound physical, earned, blue-collar, determined. End decisively, like a machine locking into operating speed.",
+      "lyrics": "[Verse 1]\\nFive in the morning, boots on the floor\\nSame old hands reaching out for the door\\nSteel in the truck, cold in the air\\nNobody sees what gets built from here\\n\\n[Pre-Chorus]\\nTurn the key\\nWake the line\\nOne more piece\\nOne more time\\n\\n[Chorus]\\nClock in\\nLet the whole thing come alive\\nBolt by bolt and line by line\\nWe don't wait for luck to find us\\nWe put our hands on it and build\\n\\n[Verse 2]\\nScars on the tools, dust on the name\\nLearn what breaks, then build it again\\nNothing was given, nothing came clean\\nEvery mistake left something to teach\\n\\n[Final Chorus]\\nClock in\\nLet the whole thing come alive\\nSteel and sweat and stubborn time\\nLeave something standing behind us\\nWhen the lights go out tonight\\n\\n[Outro]\\nClock in.\\nBuild something.",
+      "result": "No teeth. Vocal felt soulless and closer to speaking the song in intonation than really singing it.",
+      "tags": [
+        "lyrics",
+        "vocal",
+        "talk-singing",
+        "baseline"
+      ]
+    },
+    {
+      "id": "T003",
+      "date": "2026-09-27",
+      "model": "Music v2.5",
+      "duration_seconds": 60,
+      "credits": 1800,
+      "type": "lyrics",
+      "title": "Clock In — v2.5 A/B",
+      "prompt": "Same creative direction and lyrics as T002; model changed to Music v2.5 for an A/B comparison.",
+      "result": "Better overall quality, but still soulless. The vocal remained closer to speaking in intonation than fully singing the song.",
+      "tags": [
+        "lyrics",
+        "vocal",
+        "ab-test",
+        "v2.5",
+        "talk-singing"
+      ]
+    },
+    {
+      "id": "T004",
+      "date": "2026-09-27",
+      "model": "Music v2.5",
+      "duration_seconds": 60,
+      "credits": 1800,
+      "type": "lyrics",
+      "title": "Vocal Soul Torture Test",
+      "prompt": "Slow southern soul-rock, 74 BPM, minor key. Male singer with a rough, powerful chest voice. Strong melodic vocal performance with long sustained notes, wide pitch movement, expressive vibrato, bends, and occasional melisma. Do not use spoken-word phrasing, conversational delivery, chant-like vocals, or rhythmic talk-singing. Verses are melodic and aching. The chorus opens into large held notes with audible strain and breath. Imperfect human edges are welcome. Dirty electric guitar, Hammond organ, heavy live drums, warm bass. Raw live-room production, not polished pop.",
+      "lyrics": "[Verse]\\nI've been carrying this weight so lo-o-ong\\nWith the iron and the dust in my lungs\\nEvery mile left a mark on my hands\\nBut I'm still here, and I still understand\\n\\n[Chorus]\\nI won't go-o-o quietly\\nI won't fade into the night\\nLet the whole world lean against me\\nI'll be standing when it's light",
+      "result": "Success. This produced singing soul instead of speech-like intonation.",
+      "tags": [
+        "lyrics",
+        "vocal",
+        "v2.5",
+        "sustained-notes",
+        "successful"
+      ]
+    }
+  ]
+}
