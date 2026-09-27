@@ -33,6 +33,15 @@
       "evidence": [
         "T004"
       ]
+    },
+    {
+      "id": "F004",
+      "status": "confirmed",
+      "title": "Rewrites must preserve prosody when recreating an existing song",
+      "finding": "A full-length Rug Burn recreation had acceptable overall quality, but changing lyric wording without preserving the original syllable counts and stress placement disrupted where words landed against the music. When recreating a song, meaning can change while meter, stress pattern, line length, and singable vowel placement should stay close to the source lyrics.",
+      "evidence": [
+        "T005"
+      ]
     }
   ],
   "reusable": {
@@ -109,6 +118,27 @@
         "v2.5",
         "sustained-notes",
         "successful"
+      ]
+    },
+    {
+      "id": "T005",
+      "date": "2026-09-27",
+      "model": "Music v2.5",
+      "duration_seconds": 210,
+      "credits": 6299,
+      "type": "lyrics",
+      "title": "Rug Burn — Full Recreation, Rewrite Pass",
+      "prompt": "Dark orchestral rock / epic cinematic anime opening. Male lead vocal with explicit melodic-singing mechanics carried forward from T004. Full-song build with dynamic verses, climbing pre-chorus, explosive chorus, darker bridge, and decisive outro.",
+      "result": "Not bad overall, but the rewritten lyrics disrupted where the syllables landed. The mismatch was audible and reduced the feel of the recreation. Next pass should preserve the original song's meter and stress pattern while making only surgical meaning changes.",
+      "tags": [
+        "lyrics",
+        "vocal",
+        "v2.5",
+        "full-song",
+        "recreation",
+        "prosody",
+        "meter",
+        "needs-revision"
       ]
     }
   ]
