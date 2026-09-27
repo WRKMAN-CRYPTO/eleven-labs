@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<title>WRKMAN · Eleven Labs Fieldbook</title>
+<style>
+:root{--bg:#0b0d10;--panel:#11151a;--panel2:#171c22;--line:#2a313a;--text:#f2f4f7;--muted:#98a2ad;--hot:#f2b544;--good:#67d391;--bad:#e47777;--blue:#74a7ff}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#171b21 0,#0b0d10 36%);color:var(--text);font:15px/1.45 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{max-width:980px;margin:auto;padding:18px 14px 64px}.top{display:flex;align-items:center;gap:12px;margin:4px 0 18px}.mark{width:44px;height:44px;border:2px solid var(--hot);display:grid;place-items:center;font-size:26px;font-weight:900;transform:rotate(-2deg);box-shadow:0 0 0 3px #000 inset}.eyebrow{color:var(--hot);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}.top h1{font-size:22px;line-height:1.1;margin:2px 0}.sub{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin:16px 0}.chip{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:8px 11px;border-radius:999px;white-space:nowrap;font:inherit}.chip.active{background:#222933;color:#fff;border-color:#46515f}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 10px 28px #0005}.card h2,.card h3{margin:0}.finding{border-left:3px solid var(--hot)}.finding .id,.run .id{font:700 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);letter-spacing:.08em}.finding p{margin:8px 0 0;color:#d9dde3}.section{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 10px}.section h2{font-size:16px}.count{font-size:12px;color:var(--muted)}
+.runHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.run h3{font-size:17px;margin-top:4px}.meta{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.badge{font-size:11px;padding:4px 7px;border-radius:8px;background:#20262e;color:#c7ced7;border:1px solid #2e3742}.result{margin:9px 0 0;padding:10px;border-radius:10px;background:#0c1014;border:1px solid #222a33}.result.good{border-color:#285b3d}.result.bad{border-color:#623737}.label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:800}.result p{margin:4px 0 0}
+details{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}summary{cursor:pointer;color:#cfd6de;font-weight:700}.prompt{white-space:pre-wrap;margin:9px 0 0;padding:11px;background:#090c0f;border-radius:10px;border:1px solid #232a33;color:#d6dbe1;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}.copy{border:1px solid #3a4653;background:#1a2129;color:#e9edf2;padding:7px 9px;border-radius:9px;font:700 12px/1 inherit}.copy:active{transform:translateY(1px)}
+.foundation{background:linear-gradient(180deg,#171c22,#101419);border:1px solid #3f4751}.foundation blockquote{margin:10px 0 0;padding:10px 12px;border-left:3px solid var(--blue);background:#0b0e12;color:#e6e9ed}
+.empty{color:var(--muted);padding:20px;text-align:center}@media(min-width:760px){.grid.findings{grid-template-columns:repeat(3,1fr)}.grid.runs{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div class="mark">W</div>
+    <div><div class="eyebrow">WRKMAN · Music Lab</div><h1>Eleven Labs Fieldbook</h1><div class="sub">Prompts, model behavior, and things worth remembering.</div></div>
+  </header>
+
+  <section class="card foundation">
+    <div class="label">Reusable vocal foundation</div>
+    <blockquote id="foundation">Loading…</blockquote>
+    <div style="margin-top:10px"><button class="copy" data-copy="foundation">Copy foundation</button></div>
+  </section>
+
+  <div class="section"><h2>Confirmed findings</h2><span class="count" id="findingCount"></span></div>
+  <div class="grid findings" id="findings"></div>
+
+  <div class="section"><h2>Test runs</h2><span class="count" id="runCount"></span></div>
+  <div class="toolbar" id="filters">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="Music v2">v2</button>
+    <button class="chip" data-filter="Music v2.5">v2.5</button>
+    <button class="chip" data-filter="instrumental">Instrumental</button>
+    <button class="chip" data-filter="lyrics">Lyrics</button>
+    <button class="chip" data-filter="successful">Successful</button>
+  </div>
+  <div class="grid runs" id="runs"></div>
+</main>
+<script>
+let DB; let filter='all';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function outcomeClass(r){return r.tags?.includes('successful')?'good':r.tags?.includes('baseline')||r.tags?.includes('talk-singing')?'bad':''}
+function render(){
+  document.querySelector('#foundation').textContent=DB.reusable.vocal_foundation;
+  document.querySelector('#findingCount').textContent=DB.findings.length+' logged';
+  document.querySelector('#findings').innerHTML=DB.findings.map(f=>`<article class="card finding"><div class="id">${esc(f.id)} · ${esc(f.status)}</div><h3>${esc(f.title)}</h3><p>${esc(f.finding)}</p><div class="meta">${f.evidence.map(x=>`<span class="badge">${esc(x)}</span>`).join('')}</div></article>`).join('');
+  const rows=DB.runs.filter(r=>filter==='all'||r.model===filter||r.type===filter||r.tags?.includes(filter));
+  document.querySelector('#runCount').textContent=rows.length+' / '+DB.runs.length;
+  document.querySelector('#runs').innerHTML=rows.map(r=>`<article class="card run">
+    <div class="runHead"><div><div class="id">${esc(r.id)} · ${esc(r.date)}</div><h3>${esc(r.title)}</h3></div><button class="copy" data-copy-run="${esc(r.id)}">Copy prompt</button></div>
+    <div class="meta"><span class="badge">${esc(r.model)}</span><span class="badge">${r.duration_seconds}s</span><span class="badge">${r.credits} credits</span><span class="badge">${esc(r.type)}</span></div>
+    <div class="result ${outcomeClass(r)}"><div class="label">Observed result</div><p>${esc(r.result)}</p></div>
+    <details><summary>Prompt</summary><div class="prompt">${esc(r.prompt)}</div></details>
+    ${r.lyrics?`<details><summary>Lyrics</summary><div class="prompt">${esc(r.lyrics)}</div></details>`:''}
+  </article>`).join('')||'<div class="empty">No runs match this filter.</div>';
+}
+document.addEventListener('click',async e=>{
+  const chip=e.target.closest('[data-filter]'); if(chip){filter=chip.dataset.filter;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active',x===chip));render();return}
+  if(e.target.dataset.copy==='foundation'){await navigator.clipboard.writeText(DB.reusable.vocal_foundation);e.target.textContent='Copied';setTimeout(()=>e.target.textContent='Copy foundation',900)}
+  if(e.target.dataset.copyRun){const r=DB.runs.find(x=>x.id===e.target.dataset.copyRun);await navigator.clipboard.writeText(r.prompt+(r.lyrics?'\n\nLYRICS\n'+r.lyrics:''));e.target.textContent='Copied';setTimeout(()=>e.target.textContent='Copy prompt',900)}
+});
+fetch('./data/experiments.json').then(r=>r.json()).then(x=>{DB=x;render()}).catch(()=>{document.querySelector('#runs').innerHTML='<div class="empty">Could not load experiment data.</div>'});
+</script>
+</body>
+</html>
